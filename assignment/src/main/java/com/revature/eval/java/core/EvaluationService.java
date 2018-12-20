@@ -31,7 +31,6 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String acronym(String phrase) {
-		// TODO Write an implementation for this method declaration
 //		without builtin methods solution
 //		for (int i = 0; i<phrase.length();i++) {
 //			char myChar = phrase.charAt(i);
@@ -132,7 +131,6 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int getScrabbleScore(String string) {
-		// TODO Write an implementation for this method declaration
 		string = string.toUpperCase();
 		HashMap<Character,Integer> letterValues = new HashMap<Character, Integer>();
 		letterValues.put('G',2);
@@ -192,7 +190,6 @@ public class EvaluationService {
 	 * NANP-countries, only 1 is considered a valid country code.
 	 */
 	public String cleanPhoneNumber(String string) throws IllegalArgumentException {
-		// TODO Write an implementation for this method declaration
 		String outString = string.replaceAll("[^\\p{Digit}]", "");
 		if (outString.length()!=10) {
 			throw new IllegalArgumentException();
@@ -263,9 +260,42 @@ public class EvaluationService {
 	static class BinarySearch<T> {
 		private List<T> sortedList;
 
-		public int indexOf(T t) {
-			// TODO Write an implementation for this method declaration
-			return 0;
+		public int indexOf(T t) throws IllegalArgumentException {
+			boolean isInt = t instanceof Integer;
+			boolean isStr = t instanceof String;
+			if (!isInt&&!isStr) {
+				throw new IllegalArgumentException();
+			}
+			int searchVal;
+			if(isStr) {
+				searchVal = Integer.valueOf(((String)t));
+			} else {
+				searchVal = ((int)t);
+			}
+			int start = 0;
+			int end = this.sortedList.size()-1;
+			int half = end/2;
+			while (this.sortedList.get(half) != t) {
+				if (start>end) {
+					return -1;
+				}
+				int currentVal;
+				if(isStr) {
+					currentVal = Integer.valueOf(((String)this.sortedList.get(half)));
+				} else {
+					currentVal = (int)this.sortedList.get(half);
+				}
+				if (currentVal == searchVal) {
+					return half;
+				} else if (currentVal < searchVal) {
+					start = half + 1;
+					half = (start+end)/2;
+				} else {
+					end = half - 1; 
+					half = (start+end)/2;
+				}
+			}
+			return half;
 		}
 
 		public BinarySearch(List<T> sortedList) {
