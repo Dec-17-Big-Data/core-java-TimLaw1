@@ -372,8 +372,16 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isArmstrongNumber(int input) {
-		// TODO Write an implementation for this method declaration
-		return false;
+		String stringified = String.valueOf(input);
+		int power = stringified.length();
+		int sum = 0;
+		for (int i = 0; i < power; i++) {
+			sum = sum + ((int)Math.pow(Integer.valueOf(String.valueOf(stringified.charAt(i))),power));
+		}
+		if (sum != input) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
