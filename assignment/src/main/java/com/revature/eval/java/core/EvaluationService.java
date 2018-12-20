@@ -274,25 +274,32 @@ public class EvaluationService {
 			}
 			int start = 0;
 			int end = this.sortedList.size()-1;
-			int half = end/2;
-			while (this.sortedList.get(half) != t) {
-				if (start>end) {
-					return -1;
-				}
-				int currentVal;
-				if(isStr) {
-					currentVal = Integer.valueOf(((String)this.sortedList.get(half)));
-				} else {
-					currentVal = (int)this.sortedList.get(half);
-				}
-				if (currentVal == searchVal) {
-					return half;
-				} else if (currentVal < searchVal) {
-					start = half + 1;
+			int half = (start+end)/2;
+			if (isInt) {
+				while (((int)this.sortedList.get(half)) != searchVal) {
+					if (start>end) {
+						return -1;
+					}
 					half = (start+end)/2;
-				} else {
-					end = half - 1; 
+					int currentVal = (int)this.sortedList.get(half);
+					if (currentVal < searchVal) {
+						start = half + 1;
+					} else {
+						end = half - 1; 
+					}
+				}
+			} else {
+				while (Integer.valueOf(((String)this.sortedList.get(half))) != searchVal) {
+					if (start>end) {
+						return -1;
+					}
 					half = (start+end)/2;
+					int currentVal = Integer.valueOf(((String)this.sortedList.get(half)));
+					if (currentVal < searchVal) {
+						start = half + 1;
+					} else {
+						end = half - 1; 
+					}
 				}
 			}
 			return half;
@@ -331,8 +338,22 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String toPigLatin(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		String[] words = string.split("[^\\w+]");
+		String vowels = "AEIOUaeiou";
+		String outString = "";
+		for (String word: words) {
+			for (int i = 0; i < word.length(); i++) {
+				if (vowels.contains(String.valueOf(word.charAt(i)))) {
+					if (word.substring(0,2).equals("qu")) {
+						outString = outString + word.substring(i+1, word.length()) + word.substring(0, i+1) + "ay ";
+						break;		
+					}
+					outString = outString + word.substring(i, word.length()) + word.substring(0, i) + "ay ";
+					break;
+				}
+			}
+		}
+		return outString.substring(0, outString.length()-1);
 	}
 
 	/**
