@@ -1,6 +1,7 @@
 package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -132,7 +133,31 @@ public class EvaluationService {
 	 */
 	public int getScrabbleScore(String string) {
 		// TODO Write an implementation for this method declaration
-		return 0;
+		string = string.toUpperCase();
+		HashMap<Character,Integer> letterValues = new HashMap<Character, Integer>();
+		letterValues.put('G',2);
+		letterValues.put('K',5);
+		letterValues.put('J',8);
+		letterValues.put('X',8);
+		letterValues.put('Q',10);
+		letterValues.put('Z',10);
+		Character[] chars1 = {'A','E','I','O','U','L','N','R','S','T'};
+		for (Character c: chars1) {
+			letterValues.put(c,1);
+		}
+		Character[] chars3 = {'B','C','M','P'};
+		for (Character c: chars3) {
+			letterValues.put(c,3);
+		}
+		Character[] chars4 = {'F','H','V','W','Y'};
+		for (Character c: chars4) {
+			letterValues.put(c,4);
+		}
+		int wordScore = 0;
+		for(int i=0;i<string.length();i++) {
+			wordScore = wordScore + letterValues.get(string.charAt(i));
+		}
+		return wordScore;
 	}
 
 	/**
@@ -166,9 +191,13 @@ public class EvaluationService {
 	 * Note: As this exercise only deals with telephone numbers used in
 	 * NANP-countries, only 1 is considered a valid country code.
 	 */
-	public String cleanPhoneNumber(String string) {
+	public String cleanPhoneNumber(String string) throws IllegalArgumentException {
 		// TODO Write an implementation for this method declaration
-		return null;
+		String outString = string.replaceAll("[^\\p{Digit}]", "");
+		if (outString.length()!=10) {
+			throw new IllegalArgumentException();
+		}
+		return outString;
 	}
 
 	/**
