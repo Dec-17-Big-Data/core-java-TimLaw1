@@ -31,7 +31,22 @@ public class EvaluationService {
 	 */
 	public String acronym(String phrase) {
 		// TODO Write an implementation for this method declaration
-		return null;
+//		without builtin methods solution
+//		for (int i = 0; i<phrase.length();i++) {
+//			char myChar = phrase.charAt(i);
+//			char upperCase = Character.toUpperCase(myChar);
+//			if (Character.isAlphabetic(myChar) && Character.isWhitespace()) {
+//				
+//			}
+//		}
+//		with builtin methods solution
+//		String pattern = "\\B(?:[a-zA-Z])\\p{Alpha}*\\B*";
+//		String pattern2 = "(\\p{Punct}|\\p{Space})";
+//		String phrase2 = phrase.replaceAll(pattern, "");
+//		String outPhrase = phrase2.replaceAll(pattern2, "");
+//		return outPhrase.toUpperCase();
+//		my one liner answer
+		return phrase.replaceAll("\\B(?:[a-zA-Z])\\p{Alpha}*\\B*", "").replaceAll("(\\p{Punct}|\\p{Space})", "").toUpperCase();
 	}
 
 	/**
