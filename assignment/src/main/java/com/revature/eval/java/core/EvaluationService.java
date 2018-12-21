@@ -1,5 +1,6 @@
 package com.revature.eval.java.core;
 
+import java.io.IOException;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -483,9 +484,30 @@ public class EvaluationService {
 	 * @param i
 	 * @return
 	 */
-	public int calculateNthPrime(int i) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+	public int calculateNthPrime(int i) throws IllegalArgumentException {
+		int k = 2;
+		int count = 1;
+		if (i == 1) {
+			return 2;
+		} else if (i < 1) {
+			throw new IllegalArgumentException();
+		}
+		while (true) {
+			k = k + 1;
+			boolean isPrime = true;
+			for (int j = 2; j<=Math.sqrt(k); j++) {
+				if (k%j==0) {
+					isPrime = false;
+					break;
+				}
+			}
+			if (isPrime) {
+				count++;
+			}
+			if (count==i) {
+				return k;
+			}
+		}
 	}
 
 	/**
