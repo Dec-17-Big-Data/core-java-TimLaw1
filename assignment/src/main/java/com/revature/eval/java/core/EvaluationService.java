@@ -448,8 +448,25 @@ public class EvaluationService {
 		}
 
 		public String rotate(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			int[] codePoints = new int[string.length()];
+			for (int i = 0; i < string.length(); i++) {
+				int thisCodePoint = string.codePointAt(i);
+				if(string.substring(i,i+1).matches("\\p{Alpha}")) {
+					if (thisCodePoint<90) { // lowercase
+						int start = 65;					
+						int index = (thisCodePoint + this.key - start) % 26;
+						codePoints[i] = start+index;
+					} else { // Capital
+						int start = 97;				
+						int index = (thisCodePoint + this.key - start) % 26;
+						codePoints[i] = start+index;
+					}
+				} else {
+					codePoints[i] = thisCodePoint;
+				}
+			}
+			String outString = new String(codePoints,0,string.length());
+			return outString;
 		}
 
 	}
