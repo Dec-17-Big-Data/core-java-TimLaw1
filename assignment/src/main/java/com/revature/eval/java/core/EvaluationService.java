@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -543,8 +544,31 @@ public class EvaluationService {
 		 * @return
 		 */
 		public static String encode(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			string = string.toLowerCase();
+			String plain = "abcdefghijklmnopqrstuvwxyz";
+			String cipher = "zyxwvutsrqponmlkjihgfedcba";
+			String parsedString = "";
+			for (int i = 0; i < string.length(); i++) {
+				if (String.valueOf(string.charAt(i)).matches("\\p{Alpha}")) {
+					parsedString = parsedString + String.valueOf(cipher.charAt(plain.indexOf(string.charAt(i))));		
+				} else if (String.valueOf(string.charAt(i)).matches("\\p{Digit}")) {
+					parsedString = parsedString + String.valueOf(string.charAt(i));
+				}
+			}
+			String outString = "";
+			for (int i = 0; i <= (parsedString.length()/5); i++) {
+				int startIndex = i * 5;
+				int endIndex = i * 5 + 5;
+				if (endIndex > parsedString.length()) {
+					outString = outString + parsedString.substring(startIndex, parsedString.length());
+				} else {
+					outString = outString + parsedString.substring(startIndex, endIndex) + " ";
+				}
+			}
+			if (outString.substring(outString.length()-1).equals(" ")) {
+				outString = outString.substring(0, outString.length()-1);
+			}
+			return outString;
 		}
 
 		/**
@@ -554,8 +578,18 @@ public class EvaluationService {
 		 * @return
 		 */
 		public static String decode(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			String plain = "abcdefghijklmnopqrstuvwxyz";
+			String cipher = "zyxwvutsrqponmlkjihgfedcba";
+			string.replaceAll(" ", "");
+			String parsedString = "";
+			for (int i = 0; i < string.length(); i++) {
+				if (String.valueOf(string.charAt(i)).matches("\\p{Alpha}")) {
+					parsedString = parsedString + String.valueOf(plain.charAt(cipher.indexOf(string.charAt(i))));		
+				} else if (String.valueOf(string.charAt(i)).matches("\\p{Digit}")) {
+					parsedString = parsedString + String.valueOf(string.charAt(i));
+				}
+			}
+			return parsedString;
 		}
 	}
 
@@ -582,8 +616,28 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isValidIsbn(String string) {
-		// TODO Write an implementation for this method declaration
-		return false;
+		String digits = string.replaceAll("-", "");
+		int sum = 0;
+		for (int i = 0; i < digits.length()-1; i++) {
+			int power = 10-i;
+			if (!String.valueOf(digits.charAt(i)).matches("\\p{Digit}")) {
+				return false;
+			}
+			sum = sum + (Integer.valueOf(String.valueOf(digits.charAt(i)))* power);
+		}
+		if (digits.charAt(digits.length()-1)=='X') {
+			sum = sum + 10;
+		} else {
+			if (!String.valueOf(digits.charAt(digits.length()-1)).matches("\\p{Digit}")) {
+				return false;
+			}
+			sum = sum + Integer.valueOf(String.valueOf(digits.charAt(digits.length()-1)));
+		}
+		if (sum%11==0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -600,7 +654,17 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isPangram(String string) {
-		// TODO Write an implementation for this method declaration
+		string.toLowerCase();
+		HashSet<Character> alphabet = new HashSet<Character>();
+		for(int i = 0; i < string.length(); i++) {
+			if (string.charAt(i)==' ') {
+				continue;
+			}
+			alphabet.add(string.charAt(i));
+		}
+		if(alphabet.size()==26) {
+			return true;
+		}
 		return false;
 	}
 
