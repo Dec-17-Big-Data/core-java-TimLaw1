@@ -1,7 +1,14 @@
 package com.revature.eval.java.core;
 
+import java.awt.SecondaryLoop;
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
+import java.time.temporal.TemporalField;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -676,9 +683,42 @@ public class EvaluationService {
 	 * @param given
 	 * @return
 	 */
-	public Temporal getGigasecondDate(Temporal given) {
-		// TODO Write an implementation for this method declaration
-		return null;
+	public Temporal getGigasecondDate(Temporal given) throws IllegalArgumentException {
+		int secondOfMinute=0;
+		if (given.isSupported(ChronoField.SECOND_OF_MINUTE)) {
+			secondOfMinute = given.get(ChronoField.SECOND_OF_MINUTE);	
+			System.out.println(secondOfMinute);
+		}
+		int minuteOfHour=0;
+		if (given.isSupported(ChronoField.MINUTE_OF_HOUR)) {
+			minuteOfHour = given.get(ChronoField.MINUTE_OF_HOUR);	
+			System.out.println(minuteOfHour);
+		}
+		int hourOfDay=0;
+		if (given.isSupported(ChronoField.HOUR_OF_DAY)) {
+			hourOfDay = given.get(ChronoField.HOUR_OF_DAY);	
+			System.out.println(hourOfDay);
+		}
+		int dayOfMonth=0;
+		if (given.isSupported(ChronoField.DAY_OF_MONTH)) {
+			dayOfMonth = given.get(ChronoField.DAY_OF_MONTH);	
+			System.out.println(dayOfMonth);	
+		}
+		int monthOfYear=0;
+		if (given.isSupported(ChronoField.MONTH_OF_YEAR)) {
+			monthOfYear = given.get(ChronoField.MONTH_OF_YEAR);	
+			System.out.println(monthOfYear);	
+		}
+		int year = 0;
+		if (given.isSupported(ChronoField.YEAR)) {
+			year = given.get(ChronoField.YEAR);	
+			System.out.println(year);	
+		}
+		if (year<1) {
+			throw new IllegalArgumentException();
+		}
+		LocalDateTime givenTime = LocalDateTime.of(year, monthOfYear, dayOfMonth, hourOfDay, minuteOfHour, secondOfMinute);
+		return givenTime.plus(1000000000, ChronoUnit.SECONDS);
 	}
 
 	/**
