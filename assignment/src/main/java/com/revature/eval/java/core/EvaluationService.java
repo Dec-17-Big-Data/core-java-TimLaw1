@@ -787,7 +787,29 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isLuhnValid(String string) {
-		// TODO Write an implementation for this method declaration
+		string = string.replaceAll(" ", "");
+		if (string.matches(".*[^\\p{Digit}].*")) {
+			return false;
+		}
+		int[] digits = new int[string.length()-1];
+		for (int i = 1; i < string.length(); i++) {
+			if ((i+1)%2==0) {
+				 int thisDigit = Integer.valueOf(String.valueOf(string.charAt(i)))*2;
+				 if (thisDigit>9) {
+					 thisDigit = thisDigit - 9;
+				 }
+				 digits[i-1] = thisDigit;
+			} else {
+				digits[i-1] = Integer.valueOf(String.valueOf(string.charAt(i)));
+			}
+		}
+		int sum = 0;
+		for (int k: digits) {
+			sum = sum + k;
+		}
+		if (sum%10==0) {
+			return true;
+		}
 		return false;
 	}
 
