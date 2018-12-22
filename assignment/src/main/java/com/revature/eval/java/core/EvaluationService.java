@@ -686,33 +686,27 @@ public class EvaluationService {
 	public Temporal getGigasecondDate(Temporal given) throws IllegalArgumentException {
 		int secondOfMinute=0;
 		if (given.isSupported(ChronoField.SECOND_OF_MINUTE)) {
-			secondOfMinute = given.get(ChronoField.SECOND_OF_MINUTE);	
-			System.out.println(secondOfMinute);
+			secondOfMinute = given.get(ChronoField.SECOND_OF_MINUTE);
 		}
 		int minuteOfHour=0;
 		if (given.isSupported(ChronoField.MINUTE_OF_HOUR)) {
-			minuteOfHour = given.get(ChronoField.MINUTE_OF_HOUR);	
-			System.out.println(minuteOfHour);
+			minuteOfHour = given.get(ChronoField.MINUTE_OF_HOUR);
 		}
 		int hourOfDay=0;
 		if (given.isSupported(ChronoField.HOUR_OF_DAY)) {
 			hourOfDay = given.get(ChronoField.HOUR_OF_DAY);	
-			System.out.println(hourOfDay);
 		}
 		int dayOfMonth=0;
 		if (given.isSupported(ChronoField.DAY_OF_MONTH)) {
 			dayOfMonth = given.get(ChronoField.DAY_OF_MONTH);	
-			System.out.println(dayOfMonth);	
 		}
 		int monthOfYear=0;
 		if (given.isSupported(ChronoField.MONTH_OF_YEAR)) {
 			monthOfYear = given.get(ChronoField.MONTH_OF_YEAR);	
-			System.out.println(monthOfYear);	
 		}
 		int year = 0;
 		if (given.isSupported(ChronoField.YEAR)) {
 			year = given.get(ChronoField.YEAR);	
-			System.out.println(year);	
 		}
 		if (year<1) {
 			throw new IllegalArgumentException();
@@ -841,8 +835,28 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int solveWordProblem(String string) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		String[] digits = string.split("[^(-?\\p{Digit}+)]");
+		int[] parsedNums = new int[2];
+		int count = 0;
+		for (String i: digits) {
+			if (i.equals("")) {
+				continue;
+			}
+			String digit = i.replace("?", "");
+			parsedNums[count] = Integer.valueOf(digit);
+			count++;
+		}
+		int result = 0;
+		if (string.matches(".*minus.*")) {
+			result = parsedNums[0] - parsedNums[1];
+		} else if (string.matches(".*plus.*")) {
+			result = parsedNums[0] + parsedNums[1];
+		} else if (string.matches(".*multiplied by.*")) {
+			result = parsedNums[0] * parsedNums[1];
+		} else if (string.matches(".*divided by.*")) {
+			result = parsedNums[0] / parsedNums[1];
+		}
+		return result;
 	}
 
 }
