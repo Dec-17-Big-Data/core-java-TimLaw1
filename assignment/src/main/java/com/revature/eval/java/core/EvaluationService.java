@@ -280,18 +280,18 @@ public class EvaluationService {
 			if(isStr) {
 				searchVal = Integer.valueOf(((String)t));
 			} else {
-				searchVal = ((int)t);
+				searchVal = ((Integer)t);
 			}
 			int start = 0;
 			int end = this.sortedList.size()-1;
 			int half = (start+end)/2;
 			if (isInt) {
-				while (((int)this.sortedList.get(half)) != searchVal) {
+				while (((Integer)this.sortedList.get(half)) != searchVal) {
 					if (start>end) {
 						return -1;
 					}
 					half = (start+end)/2;
-					int currentVal = (int)this.sortedList.get(half);
+					int currentVal = (Integer)this.sortedList.get(half);
 					if (currentVal < searchVal) {
 						start = half + 1;
 					} else {
